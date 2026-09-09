@@ -1,0 +1,69 @@
+# Diagrama de Classes - Sistema Bancário
+
+```mermaid
+classDiagram
+    class Cliente {
+        -String nome
+        -String cpf
+        -String telefone
+        +solicitarConta()
+        +atualizarDados()
+    }
+
+    class Funcionario {
+        -String nome
+        -int matricula
+        +cadastrarCliente()
+        +alterarCadastro()
+        +abrirConta()
+        +encerrarConta()
+    }
+
+    class Banco {
+        -String nome
+        -int codigo
+        +abrirConta()
+        +encerrarConta()
+    }
+
+    class Conta {
+        -int numero
+        -double saldo
+        +depositar()
+        +sacar()
+        +consultarSaldo()
+        +emitirExtrato()
+    }
+
+    class ContaComum {
+        +sacar()
+    }
+
+    class ContaEspecial {
+        -double limite
+        +sacar()
+    }
+
+    class ContaPoupanca {
+        -double taxaJuros
+        +aplicarJuros()
+    }
+
+    class CaixaEletronico {
+        -int numero
+        -String localizacao
+        +depositar()
+        +sacar()
+        +consultarSaldo()
+        +emitirExtrato()
+    }
+
+    Cliente "1" --> "1..*" Conta : possui
+    Banco "1" --> "1..*" Conta : possui
+    Funcionario "1" --> "0..*" Cliente : atende
+    CaixaEletronico --> Conta : realiza operacoes
+
+    Conta <|-- ContaComum
+    Conta <|-- ContaEspecial
+    Conta <|-- ContaPoupanca
+```
