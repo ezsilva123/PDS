@@ -1,1 +1,55 @@
+public class Main {
 
+    public static void main(String[] args) {
+
+        // 1. Cadastro de produtos
+        Produto coxinha = new Produto("P001", "Coxinha", "Lanche", 6.50, 20);
+        Produto suco = new Produto("P002", "Suco de Laranja", "Bebida", 5.00, 15);
+        Produto brigadeiro = new Produto("P003", "Brigadeiro", "Doce", 3.00, 10);
+
+        System.out.println("=== Cardápio ===");
+        System.out.println(coxinha);
+        System.out.println(suco);
+        System.out.println(brigadeiro);
+
+        // 2. Criação do pedido e adição de itens (mesmo exemplo do enunciado)
+        Pedido pedido = new Pedido();
+        pedido.adicionarItem(coxinha, 2);
+        pedido.adicionarItem(suco, 1);
+
+        System.out.println("\n=== Itens do Pedido ===");
+        for (ItemPedido item : pedido.getItens()) {
+            System.out.println(item);
+        }
+
+        double total = pedido.calcularTotal();
+        System.out.printf("%nTotal do pedido: R$ %.2f%n", total);
+
+        // 3. Pagamento em dinheiro
+        Pagamento pagamento = new Pagamento(TipoPagamento.DINHEIRO, 20.00);
+        boolean sucesso = pedido.finalizar(pagamento);
+
+        // 4. Comprovante
+        System.out.println("\n=== Comprovante ===");
+        if (sucesso) {
+            System.out.println("Pedido finalizado com sucesso!");
+            System.out.println("Data/hora: " + pedido.getDataHora());
+            System.out.println("Forma de pagamento: " + pagamento.getTipo());
+            System.out.printf("Valor pago: R$ %.2f%n", pagamento.getValorPago());
+            System.out.printf("Troco: R$ %.2f%n", pagamento.getTroco());
+
+            System.out.println("\n=== Estoque atualizado ===");
+            System.out.println(coxinha);
+            System.out.println(suco);
+        } else {
+            System.out.println("Não foi possível finalizar o pedido.");
+        }
+
+        // 5. Exemplo de exceção: pagamento insuficiente
+        System.out.println("\n=== Teste: pagamento insuficiente ===");
+        Pedido pedido2 = new Pedido();
+        pedido2.adicionarItem(brigadeiro, 3);
+        Pagamento pagamentoInsuficiente = new Pagamento(TipoPagamento.PIX, 5.00);
+        pedido2.finalizar(pagamentoInsuficiente);
+    }
+}
