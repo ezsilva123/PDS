@@ -1,0 +1,59 @@
+## 1. Atores
+
+| Ator | Descrição |
+|---|---|
+| **Cliente** | Aluno/pessoa que consulta o cardápio, escolhe produtos e paga pelo pedido. |
+| **Atendente** | Funcionário que registra a venda no sistema, recebe o pagamento e emite o comprovante. |
+| **Gerente** | Responsável por cadastrar produtos, alterar preços, controlar estoque e consultar relatórios de vendas. |
+
+## 2. Casos de Uso Principais
+
+- UC01 – Consultar cardápio
+- UC02 – Montar pedido (escolher produtos e quantidades)
+- UC03 – Fechar pedido
+- UC04 – Realizar pagamento
+- UC05 – Emitir comprovante
+- UC06 – Cadastrar produto
+- UC07 – Alterar preço de produto
+- UC08 – Atualizar estoque (entrada/saída)
+- UC09 – Remover produto do cardápio
+- UC10 – Consultar vendas realizadas
+
+## 3. Descrição Detalhada de Casos de Uso
+
+### UC04 – Realizar Pedido e Pagamento
+
+**Objetivo:** permitir que o cliente monte um pedido e conclua a compra pagando o valor total, recebendo o troco quando aplicável.
+
+**Atores:** Cliente (principal), Atendente
+
+**Fluxo principal:**
+1. O cliente consulta o cardápio disponível.
+2. O cliente escolhe um ou mais produtos e informa as quantidades desejadas.
+3. O atendente registra cada item no pedido.
+4. O sistema calcula o subtotal de cada item e o valor total do pedido.
+5. O atendente informa a forma de pagamento (dinheiro, PIX, cartão) e o valor recebido.
+6. O sistema verifica se o valor pago é suficiente para cobrir o total.
+7. O sistema confirma o pagamento, calcula o troco (quando houver) e dá baixa no estoque dos produtos vendidos.
+8. O sistema registra a data e a hora da venda e emite o comprovante.
+
+**Fluxos alternativos / exceções:**
+- **3a. Estoque insuficiente:** ao tentar adicionar um item cuja quantidade solicitada excede o estoque disponível, o sistema impede a inclusão e avisa o atendente, que deve ajustar a quantidade ou remover o item.
+- **6a. Pagamento insuficiente:** se o valor pago for menor que o total do pedido, o sistema informa o valor faltante e não finaliza o pedido até que o cliente complemente o pagamento ou escolha outra forma de pagamento.
+
+### UC06 – Cadastrar Produto / UC08 – Atualizar Estoque
+
+**Objetivo:** permitir que o gerente mantenha o cardápio e o controle de estoque atualizados.
+
+**Atores:** Gerente
+
+**Fluxo principal:**
+1. O gerente acessa a área de gerenciamento de produtos.
+2. O gerente informa os dados de um novo produto (código, nome, categoria, preço unitário, quantidade em estoque) ou seleciona um produto já existente para editar.
+3. O sistema valida os dados informados (ex.: código único, preço e quantidade não negativos).
+4. O sistema cadastra o novo produto, ou atualiza o preço/estoque do produto selecionado.
+5. O sistema confirma a operação ao gerente.
+
+**Fluxos alternativos / exceções:**
+- **3a. Código já existente:** ao cadastrar um novo produto com um código já usado, o sistema rejeita a operação e solicita um código diferente.
+- **2a. Remoção de produto:** o gerente seleciona um produto e solicita a remoção do cardápio; o sistema remove o produto (ele deixa de aparecer para os clientes), mantendo o histórico das vendas já realizadas com ele.
