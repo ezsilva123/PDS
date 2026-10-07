@@ -1,0 +1,73 @@
+```mermaid
+classDiagram
+    class Produto {
+        -String codigo
+        -String nome
+        -String categoria
+        -double precoUnitario
+        -int quantidadeEstoque
+        +Produto(codigo, nome, categoria, precoUnitario, quantidadeEstoque)
+        +getCodigo() String
+        +getNome() String
+        +getCategoria() String
+        +getPrecoUnitario() double
+        +setPrecoUnitario(double) void
+        +getQuantidadeEstoque() int
+        +temEstoque(int quantidade) boolean
+        +darBaixaEstoque(int quantidade) void
+        +adicionarEstoque(int quantidade) void
+    }
+
+    class ItemPedido {
+        -Produto produto
+        -int quantidade
+        +ItemPedido(produto, quantidade)
+        +getProduto() Produto
+        +getQuantidade() int
+        +calcularSubtotal() double
+    }
+
+    class Pedido {
+        -List~ItemPedido~ itens
+        -LocalDateTime dataHora
+        -boolean finalizado
+        -Pagamento pagamento
+        +Pedido()
+        +adicionarItem(Produto, int) void
+        +calcularTotal() double
+        +finalizar(Pagamento) boolean
+        +getItens() List~ItemPedido~
+    }
+
+    class Pagamento {
+        -TipoPagamento tipo
+        -double valorPago
+        -double troco
+        +Pagamento(tipo, valorPago)
+        +isSuficiente(double total) boolean
+        +calcularTroco(double total) double
+        +getTipo() TipoPagamento
+        +getValorPago() double
+        +getTroco() double
+    }
+
+    class TipoPagamento {
+        <<enumeration>>
+        DINHEIRO
+        PIX
+        CARTAO_CREDITO
+        CARTAO_DEBITO
+    }
+
+    Pedido "1" o-- "1..*" ItemPedido : contém
+    ItemPedido "1..*" --> "1" Produto : referencia
+    Pedido "1" --> "0..1" Pagamento : recebe
+    Pagamento ..> TipoPagamento : usa
+```
+
+## Justificativas de Modelagem
+
+- **Pedido — ItemPedido (agregação, 1 : 1..*):** um pedido é composto por um ou mais itens; os itens não existem sem estar ligados a um pedido, mas a relação é de agregação (não composição forte) porque `ItemPedido` referencia um `Produto` que existe independentemente do pedido.
+- **ItemPedido — Produto (associação, 1..* : 1):** vários itens de pedidos diferentes podem referenciar o mesmo produto do cardápio.
+- **Pedido — Pagamento (associação, 1 : 0..1):** um pedido pode ainda não ter pagamento (enquanto está sendo montado) e passa a ter exatamente um pagamento quando finalizado.
+- **Pagamento — TipoPagamento (dependência/uso):** `Pagamento` usa a enumeração `TipoPagamento` para representar a forma de pagamento escolhida (dinheiro, PIX, cartão de crédito ou débito).
