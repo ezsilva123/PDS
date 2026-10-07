@@ -1,1 +1,38 @@
+public class Pagamento {
 
+    private TipoPagamento tipo;
+    private double valorPago;
+    private double troco;
+
+    public Pagamento(TipoPagamento tipo, double valorPago) {
+        if (valorPago < 0) {
+            throw new IllegalArgumentException("Valor pago não pode ser negativo.");
+        }
+        this.tipo = tipo;
+        this.valorPago = valorPago;
+        this.troco = 0;
+    }
+
+    /** Verifica se o valor pago cobre o total do pedido. */
+    public boolean isSuficiente(double total) {
+        return valorPago >= total;
+    }
+
+    /** Calcula (e armazena) o troco, caso o pagamento seja suficiente. */
+    public double calcularTroco(double total) {
+        this.troco = isSuficiente(total) ? valorPago - total : 0;
+        return troco;
+    }
+
+    public TipoPagamento getTipo() {
+        return tipo;
+    }
+
+    public double getValorPago() {
+        return valorPago;
+    }
+
+    public double getTroco() {
+        return troco;
+    }
+}
