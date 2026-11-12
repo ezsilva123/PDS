@@ -1,1 +1,62 @@
+# Diagrama de Classes: Sistema Bancário
 
+Exercício 1 da atividade de Diagrama de Classes (Teoria de Desenvolvimento de Sistemas).
+
+```mermaid
+classDiagram
+    class Pessoa {
+        -String nome
+        -String endereco
+        -long cep
+        -String telefone
+    }
+    class Cliente {
+        -double renda
+        -int situacao
+        +solicitarAbertura() void
+        +usarCaixaEletronico() void
+    }
+    class Funcionario {
+        -int matricula
+        +abrirConta() int
+        +encerrarConta() int
+        +manterCliente() void
+    }
+    class Conta_comum {
+        #long nro_conta
+        #Date data_abertura
+        #Date data_encerramento
+        #int senha
+        #double saldo
+        +abrirConta() int
+        +consultarConta() int
+        +validarSenha() int
+        +saldoConta() double
+        +extratoConta() string
+        +sacarValor() int
+        +depositarValor() int
+        +encerrarConta() int
+    }
+    class Conta_especial {
+        -double limite_conta
+        +sacarValor() int
+        +jurosConta() double
+    }
+    class Conta_Poupanca {
+        -Date data_aniv
+        +rendaConta() double
+    }
+    class Movimentacao {
+        -Date data
+        -String tipo
+        -double valor
+    }
+
+    Pessoa <|-- Cliente
+    Pessoa <|-- Funcionario
+    Cliente "1" o-- "1..*" Conta_comum : possui
+    Funcionario "1..*" --> "0..*" Cliente : atende
+    Conta_comum <|-- Conta_especial
+    Conta_comum <|-- Conta_Poupanca
+    Conta_comum "1" *-- "0..*" Movimentacao : registra
+```
