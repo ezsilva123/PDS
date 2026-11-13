@@ -1,1 +1,44 @@
+# Exercício 3: App de Academia
 
+## Atores
+- **Membro:** faz check-in, vê a ficha de treino e se inscreve em aulas.
+- **Instrutor:** monta e atualiza as fichas de treino.
+- **Gerência:** recebe os relatórios de frequência.
+
+## Casos de uso
+- **Membro:** Fazer check-in, Visualizar ficha de treino, Inscrever-se em aula em grupo, Autenticar-se.
+- **Instrutor:** Montar ficha de treino, Atualizar ficha de treino, Autenticar-se.
+- **Gerência:** Gerar relatório de frequência.
+
+## Diagrama
+
+```mermaid
+flowchart LR
+    Membro(["👤 Membro"])
+    Instrutor(["👤 Instrutor"])
+    Gerencia(["👤 Gerência"])
+
+    subgraph Sistema["Sistema da Academia"]
+        UC1([Fazer check-in])
+        UC2([Visualizar ficha de treino])
+        UC3([Inscrever-se em aula em grupo])
+        UC4([Montar ficha de treino])
+        UC5([Atualizar ficha de treino])
+        UC6([Gerar relatório de frequência])
+        UC7([Registrar frequência])
+        UC8([Autenticar-se])
+    end
+
+    Membro --- UC1
+    Membro --- UC2
+    Membro --- UC3
+    Membro --- UC8
+    Instrutor --- UC4
+    Instrutor --- UC5
+    Instrutor --- UC8
+    Gerencia --- UC6
+
+    UC5 -.->|«extend»| UC4
+    UC6 -.->|«include»| UC7
+    UC3 -.->|«include»| UC7
+```
