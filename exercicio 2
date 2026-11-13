@@ -1,1 +1,24 @@
+# Exercício 2: App de Cinema
 
+## Atores
+- **Cliente:** vê filmes, consulta sessões e compra ingressos.
+- **Funcionário da entrada:** valida o ingresso pelo QR Code.
+- **Operadora de cartão** (ator externo): processa o pagamento.
+
+## Casos de uso
+- **Cliente:** Ver filmes em cartaz, Consultar horários das sessões, Comprar ingresso, Autenticar-se.
+- **Funcionário:** Validar ingresso, Autenticar-se.
+- **Operadora de cartão:** Processar pagamento.
+
+## Diagrama
+
+```mermaid
+flowchart LR
+    Cliente(["👤 Cliente"])
+    Funcionario(["👤 Funcionário da entrada"])
+    Operadora(["👤 Operadora de cartão"])
+
+    subgraph Sistema["Sistema do Cinema"]
+        UC1([Ver filmes em cartaz])
+        UC2([Consultar horários das sessões])
+        UC3([Comprar
